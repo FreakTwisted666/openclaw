@@ -40,9 +40,10 @@ RUN chown -R node:node /app
 USER node
 
 # Start gateway server with default config.
-# Binds to loopback (127.0.0.1) by default for security.
-#
-# For container platforms requiring external health checks:
+# For container platforms (Render, etc):
 #   1. Set OPENCLAW_GATEWAY_TOKEN or OPENCLAW_GATEWAY_PASSWORD env var
-#   2. Override CMD: ["node","dist/index.js","gateway","--allow-unconfigured","--bind","lan"]
-CMD ["node", "dist/index.js", "gateway", "--allow-unconfigured"]
+#   2. The gateway binds to all interfaces for health checks
+#   3. Render injects PORT env var (usually 10000)
+#   4. Increase heap size to handle memory pressure
+ENV NODE_OPTIONS="--max-old-space-size=768"
+CMD ["sh", "-c", "node dist/index.js gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT}"]

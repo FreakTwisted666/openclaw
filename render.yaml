@@ -1,20 +1,30 @@
 services:
   - type: web
-    name: openclaw
+    name: openclaw-fallback
     runtime: docker
-    plan: starter
-    healthCheckPath: /health
+    # Use Standard (1GB RAM) instead of Starter (512MB) to avoid OOM
+    plan: standard
+    # Render uses healthCheckPath to verify the service is running
+    # OpenClaw gateway serves the Control UI at root path
+    healthCheckPath: /
     envVars:
-      - key: PORT
-        value: "8080"
-      - key: SETUP_PASSWORD
-        sync: false
+      # IMPORTANT: Do NOT set PORT here - let Render inject it automatically
+      # Render will set PORT to 10000 (or other assigned port)
+      # State persistence
       - key: OPENCLAW_STATE_DIR
         value: /data/.openclaw
       - key: OPENCLAW_WORKSPACE_DIR
         value: /data/workspace
+      # Auth - use a pre-set token or generate one
       - key: OPENCLAW_GATEWAY_TOKEN
         generateValue: true
+      # Node environment
+      - key: NODE_ENV
+        value: production
+      # Increase Node heap size to avoid OOM
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=768
+    # Persistent disk for sessions and state
     disk:
       name: openclaw-data
       mountPath: /data
