@@ -46,4 +46,5 @@ USER node
 #   3. Render injects PORT env var (usually 10000)
 #   4. Increase heap size to handle memory pressure
 ENV NODE_OPTIONS="--max-old-space-size=768"
-CMD ["sh", "-c", "node dist/index.js gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT}"]
+# Default PORT to 10000 if not set (Render's default)
+CMD ["sh", "-c", "node dist/index.js gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT:-10000}"]
