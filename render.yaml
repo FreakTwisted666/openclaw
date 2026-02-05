@@ -2,8 +2,8 @@ services:
   - type: web
     name: openclaw-fallback
     runtime: docker
-    # Use Standard (1GB RAM) instead of Starter (512MB) to avoid OOM
-    plan: standard
+    # Free plan for fallback deployments (upgrade if you hit OOM).
+    plan: free
     # Render uses healthCheckPath to verify the service is running
     # OpenClaw gateway serves the Control UI at root path
     healthCheckPath: /
@@ -24,8 +24,4 @@ services:
       # Increase Node heap size to avoid OOM
       - key: NODE_OPTIONS
         value: --max-old-space-size=768
-    # Persistent disk for sessions and state
-    disk:
-      name: openclaw-data
-      mountPath: /data
-      sizeGB: 1
+    # Note: Free plan does not support persistent disks.
