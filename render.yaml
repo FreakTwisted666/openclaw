@@ -18,10 +18,14 @@ services:
       # Auth - use a pre-set token or generate one
       - key: OPENCLAW_GATEWAY_TOKEN
         generateValue: true
+      - key: OPENCLAW_CONFIG_PATH
+        value: /app/render-openclaw.json
+      - key: OPENCLAW_SKIP_CANVAS_HOST
+        value: "1"
       # Node environment
       - key: NODE_ENV
         value: production
       # Increase Node heap size to avoid OOM
       - key: NODE_OPTIONS
-        value: --max-old-space-size=768
+        value: --max-old-space-size=384
     # Note: Free plan does not support persistent disks.

@@ -1,0 +1,10 @@
+{
+  "gateway": {
+    "controlUi": {
+      "enabled": false
+    },
+    "auth": {
+      "mode": "token"
+    }
+  }
+}

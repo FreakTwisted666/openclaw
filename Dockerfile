@@ -45,6 +45,6 @@ USER node
 #   2. The gateway binds to all interfaces for health checks
 #   3. Render injects PORT env var (usually 10000)
 #   4. Increase heap size to handle memory pressure
-ENV NODE_OPTIONS="--max-old-space-size=768"
+ENV NODE_OPTIONS="--max-old-space-size=384"
 # Default PORT to 10000 if not set (Render's default)
 CMD ["sh", "-c", "node dist/index.js gateway --allow-unconfigured --bind lan --port ${PORT:-10000}"]
